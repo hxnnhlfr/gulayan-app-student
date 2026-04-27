@@ -19,11 +19,27 @@ function Dashboard() {
       color: "bg-blue-100 text-blue-600",
     }
   ];
+//hello
 
+useEffect(() => {
+  const fetchPlants = async () => {
+    try {
+      const token = localStorage.getItem('token')
 
-  useEffect(() => {
-    // TODO fetch plants data from server
-  }, []);
+      const response = await axios.get('http://localhost:8000/api/plants', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      setPlants(response.data)
+    } catch (error) {
+      console.error('Failed to fetch plants:', error)
+    }
+  }
+
+  fetchPlants()
+}, [])
 
   return (
     <div>
