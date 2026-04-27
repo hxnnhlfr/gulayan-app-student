@@ -54,7 +54,7 @@ function Records() {
       });
 
       const newRecords = response.data.data || response.data;
-     
+      const pagination = response.data.pagination || response.data.meta;
 
       if (append) {
         setRecords(prev => [...prev, ...newRecords]);
@@ -62,7 +62,12 @@ function Records() {
         setRecords(newRecords);
       }
 
-      
+      // Check if there are more records to load
+     if (pagination) {
+        setHasMore(pagination.current_page < pagination.last_page);
+      } else {
+        setHasMore(newRecords.length > 0);
+      }
     } catch (error) {
       console.error('Load records error:', error);
       if (page === 1) {
