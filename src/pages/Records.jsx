@@ -79,12 +79,12 @@ function Records() {
     try {
       const isDelete = confirm("Are you sure you want to delete this record?");
       if (isDelete) {
-        await api.delete(`plants/${data.id}`, data);
-        setRecords(prev => prev?.filter( val => data.id !== val.id))
-        toast.success("Plant data deleted.");
+        await api.delete(`/plants/${data.id}`);
+        setRecords(prev => prev.filter(val => data.id !== val.id));
+        toast.success("Plant data deleted successfully.");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
       toast.error("Error encountered while deleting record.");
     }
   }
