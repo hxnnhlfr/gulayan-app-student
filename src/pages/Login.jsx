@@ -21,22 +21,39 @@ function Login() {
     }))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  setLoading(true)
 
-    try {
-      // TODO: replace with real API call
-      // await api.post('/login', formData)
+  try {
+    // REAL API CALL
+    const response = await api.post('/login', {
+      email: formData.email,
+      password: formData.password
+    })
 
-      await new Promise(resolve => setTimeout(resolve, 1500)) // demo delay
+    // adjust based on your backend response
+    const { token, user } = response.data
 
-      navigate('/dashboard')
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
+    // store auth (simple version)
+    localStorage.setItem('token', token)
+    localStorage.setItem('user', JSON.stringify(user))
+
+    // redirect after login
+    navigate('/dashboard')
+
+  } catch (error) {
+    console.error('Login failed:', error)
+
+    // optional simple alert (you can replace with toast later)
+    alert(
+      error?.response?.data?.message ||
+      'Login failed. Please check your credentials.'
+    )
+
+  } finally {
+    setLoading(false)
+  }
   }
 
   return (
