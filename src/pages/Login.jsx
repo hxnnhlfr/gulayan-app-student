@@ -124,7 +124,10 @@ function Login() {
           <p className="text-center text-sm text-gray-600">
             Don't have an account?{' '}
             <button
-              onClick={() => navigate('/signup')}
+              onClick={() => {
+                if (loading) return
+                navigate('/signup')
+              }}
               disabled={loading}
               className={`font-semibold ${
                 loading
