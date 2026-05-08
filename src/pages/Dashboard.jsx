@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaLeaf, FaUsers, FaBoxOpen, FaChartLine } from "react-icons/fa";
-import axios from "axios";
+import { api } from "../api";
 
 function Dashboard() {
- 
+
   const [plants, setPlants] = useState([]);
   const stats = [
     {
@@ -19,20 +19,12 @@ function Dashboard() {
       color: "bg-blue-100 text-blue-600",
     }
   ];
-//hello
 
 useEffect(() => {
   const fetchPlants = async () => {
     try {
-      const token = localStorage.getItem('token')
-
-      const response = await axios.get('http://localhost:8000/api/plants', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-
-      setPlants(response.data)
+      const response = await api.get('plants')
+      setPlants(response.data.data || response.data)
     } catch (error) {
       console.error('Failed to fetch plants:', error)
     }
